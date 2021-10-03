@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import headerStyles from "../../../styles/Header.module.css";
+import Link from "next/link";
+import layoutStyles from "../../../styles/Layout.module.css";
 // import { useRouter } from "next/router";
 
 const Article = ({ article }) => {
@@ -11,17 +11,19 @@ const Article = ({ article }) => {
 
   return (
     <>
-    <h1>{article.title}</h1>
-    <p>{article.body}</p>
-    <br />
-    <Link className={headerStyles.description} href='/'>Go Back</Link>
+      <h1>{article.title}</h1>
+      <p>{article.body}</p>
+      <br />
+      <Link href="/">
+        <a className={layoutStyles.main}>Go Back</a>
+      </Link>
     </>
   );
 };
 
-  //=================================================================
-  //===OPTION USING getServerSideProps which loads at each request===
-  //=================================================================
+//=================================================================
+//===OPTION USING getServerSideProps which loads at each request===
+//=================================================================
 // export const getServerSideProps = async (context) => {
 //   const res = await fetch(
 //     `https://jsonplaceholder.typicode.com/posts/${context.params.id}`
@@ -53,15 +55,15 @@ export const getStaticProps = async (context) => {
 //=====getStaticProps needs getStaticPaths. Much quicker option=====
 //==================================================================
 export const getStaticPaths = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts/');
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/");
   const articles = await res.json();
-  const ids = articles.map(article => article.id);
-  const paths = ids.map(id => ({params: {id: id.toString()}}));
+  const ids = articles.map((article) => article.id);
+  const paths = ids.map((id) => ({ params: { id: id.toString() } }));
 
   return {
-      paths,
-      fallback: false
-  }
+    paths,
+    fallback: false,
+  };
 };
 
 export default Article;
